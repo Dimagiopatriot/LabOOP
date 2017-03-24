@@ -5,7 +5,7 @@ package lab1;
  */
 public class Main {
     public static void main(String[] args) {
-        Mem m = new Mem(1000);
+        Memory m = new Memory(1000);
         int maxSize = 100;
         int n = 100;
         int[] ptr = new int[n];
@@ -18,15 +18,15 @@ public class Main {
             System.out.println(i + ") ");
             if (ptr[index] == -1) {
                 int size = (int) (Math.random() * maxSize);
-                ptr[index] = m.mem_alloc(size);
+                ptr[index] = m.memAllocate(size);
                 m.fillBlock(ptr[index]);
                 controlSum[index] = m.getControlSum(ptr[index]);
             } else {
                 if (Math.random() > 0.5) {
-                    m.mem_free(ptr[index]);
+                    m.memFree(ptr[index]);
                     ptr[index] = -1;
                 } else {
-                    int t = m.mem_realloc(ptr[index],
+                    int t = m.memReallocate(ptr[index],
                             (int) (Math.random() * maxSize));
                     if (t != -1) {
                         int s = m.getControlSum(t);

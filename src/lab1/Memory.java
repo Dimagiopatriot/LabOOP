@@ -3,8 +3,11 @@ package lab1;
 /**
  * Created by troll on 3/23/2017.
  */
-public class Mem {
-    public Mem(int memSize) {
+public class Memory {
+
+    private int[] memory;
+
+    public Memory(int memSize) {
         if (memSize < 10)
             memSize = 10;
         memory = new int[memSize];
@@ -19,7 +22,7 @@ public class Mem {
 
     }
 
-    public int mem_alloc(int size) {
+    public int memAllocate(int size) {
         if (size < 1)
             size = 1;
         int index = getNextPtr(0);
@@ -45,7 +48,7 @@ public class Mem {
         return ptr;
     }
 
-    public void mem_free(int ptr) {
+    public void memFree(int ptr) {
         int ps = getPrevPtr(ptr);
         if (getH(ps) != 1) {
             ps = getPrevPtr(ps);
@@ -69,14 +72,14 @@ public class Mem {
 
     }
 
-    public int mem_realloc(int ptr, int size) {
+    public int memReallocate(int ptr, int size) {
         if (size == 0)
             size = 1;
-        int csize = getCs(ptr) - 3;
-        int d = Math.abs(csize - size);
-        if (csize == size)
+        int cSize = getCs(ptr) - 3;
+        int d = Math.abs(cSize - size);
+        if (cSize == size)
             return ptr;
-        if (csize > size) {
+        if (cSize > size) {
             int index = ptr + size + 3;
             int next = getNextPtr(ptr);
             if (getH(next) != 1) {
@@ -159,11 +162,11 @@ public class Mem {
                                     memory[ptr + i] = 0;
                             }
                         } else {
-                            int t = mem_alloc(size);
+                            int t = memAllocate(size);
                             if (t != -1) {
                                 for (int i = 3; i < getCs(ptr); i++)
                                     memory[t + i] = memory[ptr + i];
-                                mem_free(ptr);
+                                memFree(ptr);
                                 return t;
                             }
                             return ptr;
@@ -198,11 +201,11 @@ public class Mem {
                         return prev;
                     }
                 } else {
-                    int t = mem_alloc(size);
+                    int t = memAllocate(size);
                     if (t != -1) {
                         for (int i = 3; i < getCs(ptr); i++)
                             memory[t + i] = memory[ptr + i];
-                        mem_free(ptr);
+                        memFree(ptr);
                         return t;
                     }
                 }
@@ -302,7 +305,5 @@ public class Mem {
             s += memory[ptr + i];
         return s;
     }
-
-    private int[] memory;
 
 }
